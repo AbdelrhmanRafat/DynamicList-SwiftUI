@@ -30,27 +30,62 @@ struct ContentView: View {
                         Restaurant(name: "CASK Pub and Kitchen", image: "caskpubkitchen")
     ]
     var body: some View {
-        //We can Use List withoud need to id Paramter as the Resturant conform to Identifiable protocol.
-        List (restaurants) { restaurant in
-                HStack {
-                    Image(restaurant.image)
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .cornerRadius(5)
-                    Text(restaurant.name)
-                }
+        List (restaurants.indices) { index in
+            if (0...1).contains(index) {
+                FullImageRow(restaurant: restaurants[index])
+            }
+            else {
+                BasicImageRow(restaurant: restaurants[index])
             }
         }
     }
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
-// Identifiable protocol only have one requirment that the Resturant Struct should have Some sorts of id as the unique Identifier.
+
 struct Restaurant : Identifiable {
-    var id = UUID() // Universally Unique ID => Chance of having two same identifiers is almost zero.
+    var id = UUID()
     var name : String
     var image : String
+}
+
+//Refactoring The Code..
+struct BasicImageRow: View {
+    var restaurant : Restaurant
+    var body: some View {
+        HStack {
+            Image(restaurant.image)
+                .resizable()
+                .frame(width: 40, height: 40)
+                .cornerRadius(5)
+            Text(restaurant.name)
+        }
+    }
+}
+struct FullImageRow: View {
+    var restaurant: Restaurant
+    var body: some View {
+        ZStack {
+            Image(restaurant.image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 200)
+                .cornerRadius(10)
+                .overlay(
+                    Rectangle()
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                        .opacity(0.2)
+                )
+            
+            Text(restaurant.name)
+                .font(.system(.title, design: .rounded))
+                .fontWeight(.black)
+                .foregroundColor(.white)
+        }
+    }
 }
