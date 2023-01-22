@@ -30,8 +30,8 @@ struct ContentView: View {
                         Restaurant(name: "CASK Pub and Kitchen", image: "caskpubkitchen")
     ]
     var body: some View {
-    //List Can Take A range or collection of Data 
-        List (restaurants, id : \.name) { restaurant in
+        // Instead of use name as ID Each Restaurant Should have a unique ID
+        List (restaurants, id : \.id) { restaurant in
                 HStack {
                     Image(restaurant.image)
                         .resizable()
@@ -50,6 +50,7 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct Restaurant {
+    var id = UUID() // Universally Unique ID => Chance of having two same identifiers is almost zero.
     var name : String
     var image : String
 }
