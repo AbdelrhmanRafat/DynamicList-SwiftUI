@@ -30,8 +30,8 @@ struct ContentView: View {
                         Restaurant(name: "CASK Pub and Kitchen", image: "caskpubkitchen")
     ]
     var body: some View {
-        // Instead of use name as ID Each Restaurant Should have a unique ID
-        List (restaurants, id : \.id) { restaurant in
+        //We can Use List withoud need to id Paramter as the Resturant conform to Identifiable protocol.
+        List (restaurants) { restaurant in
                 HStack {
                     Image(restaurant.image)
                         .resizable()
@@ -48,8 +48,8 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-struct Restaurant {
+// Identifiable protocol only have one requirment that the Resturant Struct should have Some sorts of id as the unique Identifier.
+struct Restaurant : Identifiable {
     var id = UUID() // Universally Unique ID => Chance of having two same identifiers is almost zero.
     var name : String
     var image : String
